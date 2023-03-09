@@ -11,7 +11,7 @@ class ShaderManager
 {
 public:
 	
-	Shader(const std::string& vertexShaderPath,const std::string& fragmentShaderPath);
+	ShaderManager(const std::string& vertexShaderPath,const std::string& fragmentShaderPath);
 
 public:
 	
@@ -19,7 +19,7 @@ public:
 	inline GLuint getProgramID() const { return m_ProgramID; }
 
 	// Activate the shader
-	void ececute();
+	void execute() const;
 
 	// Uniform functions
 	void setBoolean(const std::string& uniformTag, GLboolean value) const;
@@ -29,8 +29,12 @@ public:
 	void setFloat  (const std::string& uniformTag, GLfloat   value) const;
 
 private:
+
+	void checkCompilationErrors(GLuint shader, std::string type);
+
+private:
 	// Shader program ID
 	GLuint m_ProgramID;
-}
+};
 
 

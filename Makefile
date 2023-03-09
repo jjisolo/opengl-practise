@@ -1,2 +1,2 @@
 all:
-	g++ main.cpp glad.c -lglfw -lGL -ldl
+	g++ main.cpp shader_manager.cpp glad.c -lglfw -lGL -ldl 
