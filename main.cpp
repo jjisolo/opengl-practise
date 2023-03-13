@@ -1,9 +1,9 @@
-#define GLFW_INCLUDE_NONE
+#define GLFW_INCLUDE_GLCOREARB
 #include <GLFW/glfw3.h>
-#include "glad.h"
+#include "vendor/glad.h"
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include "vendor/stb_image.h"
 
 #include "shader_manager.hpp"
 
@@ -16,10 +16,19 @@ void processInput(GLFWwindow* window);
 int main(void)
 {
 	// Initialize the glfw library
+#ifdef __APPLE__
+    /* We need to explicitly ask for a 3.2 context on OS X */
+    glfwInit();
+    glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 2);
+    glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#else
 	glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#endif
 
     // GLFW window creation
     GLFWwindow* window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);

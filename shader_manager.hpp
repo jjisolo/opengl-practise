@@ -1,6 +1,6 @@
 #pragma once
 
-#include "glad.h"
+#include "vendor/glad.h"
 
 #include <string>
 #include <fstream>
