@@ -14,7 +14,6 @@ public:
 	ShaderManager(const std::string& vertexShaderPath,const std::string& fragmentShaderPath);
 
 public:
-	
 	// Get the shader program ID
 	inline GLuint getProgramID() const { return m_ProgramID; }
 
