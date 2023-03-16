@@ -2,6 +2,9 @@
 #define GL_SILENCE_DEPRECATION
 #define GLFW_INCLUDE_GLCOREARB
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "vendor/glad.h"
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -127,7 +130,7 @@ int main(void)
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
     //glBindVertexArray(0); 
-
+    
     defaultShaders.execute();
     defaultShaders.setInteger("texture1", 0);
     defaultShaders.setInteger("texture2", 1);
@@ -137,8 +140,7 @@ int main(void)
         processInput(window);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear     (GL_COLOR_BUFFER_BIT);—
-
+        glClear     (GL_COLOR_BUFFER_BIT);
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture  (GL_TEXTURE_2D, texture1);
@@ -146,8 +148,27 @@ int main(void)
         glBindTexture  (GL_TEXTURE_2D, texture2);
 
         defaultShaders.execute();
+        glm::mat4 trans1 = glm::mat4(1.0f);
+        trans1 = glm::translate(trans1, glm::vec3(0.5f, -0.5f, 0.0f));
+        trans1 = glm::rotate(trans1, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+        
+        unsigned int transformLoc1 = glGetUniformLocation(defaultShaders.getProgramID(), "transformationMatrix");
+        glUniformMatrix4fv(transformLoc1, 1, GL_FALSE, glm::value_ptr(trans1));
+
         glBindVertexArray(VAO);
         glDrawElements   (GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        glm::mat4 trans2 = glm::mat4(1.0f);
+        trans2 = glm::translate(trans2, glm::vec3(-0.5f, 0.5f, 0.0f));
+        auto scaleValue = glm::sin((float)glfwGetTime());
+        trans2 = glm::scale(trans2, glm::vec3(scaleValue, scaleValue, scaleValue));
+        
+        unsigned int transformLoc2 = glGetUniformLocation(defaultShaders.getProgramID(), "transformationMatrix");
+        glUniformMatrix4fv(transformLoc2, 1, GL_FALSE, glm::value_ptr(trans2));
+
+        glBindVertexArray(VAO);
+        glDrawElements   (GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
 
         glfwSwapBuffers(window);
         glfwPollEvents ();
