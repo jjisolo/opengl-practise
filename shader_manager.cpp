@@ -111,3 +111,33 @@ void ShaderManager::setFloat(const std::string& uniformTag, GLfloat value) const
 {
 	glUniform1f(glGetUniformLocation(m_ProgramID, uniformTag.c_str()), value);
 }
+
+void ShaderManager::setVec2(const std::string& uniformTag, const glm::vec2& value) const 
+{
+    glUniform2fv(glGetUniformLocation(m_ProgramID, uniformTag.c_str()), 1, &value[0]); 
+}
+
+void ShaderManager::setVec3(const std::string& uniformTag, const glm::vec3& value) const 
+{
+    glUniform3fv(glGetUniformLocation(m_ProgramID, uniformTag.c_str()), 1, &value[0]); 
+}
+
+void ShaderManager::setVec4(const std::string& uniformTag, const glm::vec4& value) const 
+{
+    glUniform4fv(glGetUniformLocation(m_ProgramID, uniformTag.c_str()), 1, &value[0]); 
+}
+
+void ShaderManager::setMat2(const std::string& uniformTag, const glm::mat2& value) const 
+{
+    glUniformMatrix2fv(glGetUniformLocation(m_ProgramID, uniformTag.c_str()), 1, GL_FALSE, &value[0][0]);
+}
+
+void ShaderManager::setMat3(const std::string& uniformTag, const glm::mat3& value) const 
+{
+    glUniformMatrix3fv(glGetUniformLocation(m_ProgramID, uniformTag.c_str()), 1, GL_FALSE, &value[0][0]);
+}
+
+void ShaderManager::setMat4(const std::string& uniformTag, const glm::mat4& value) const 
+{
+    glUniformMatrix4fv(glGetUniformLocation(m_ProgramID, uniformTag.c_str()), 1, GL_FALSE, &value[0][0]);
+}

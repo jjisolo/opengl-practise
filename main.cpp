@@ -151,24 +151,18 @@ int main(void)
         glm::mat4 trans1 = glm::mat4(1.0f);
         trans1 = glm::translate(trans1, glm::vec3(0.5f, -0.5f, 0.0f));
         trans1 = glm::rotate(trans1, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-        
-        unsigned int transformLoc1 = glGetUniformLocation(defaultShaders.getProgramID(), "transformationMatrix");
-        glUniformMatrix4fv(transformLoc1, 1, GL_FALSE, glm::value_ptr(trans1));
-
+        defaultShaders.setMat4("transformationMatrix", trans1);
         glBindVertexArray(VAO);
         glDrawElements   (GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
+        defaultShaders.execute();
         glm::mat4 trans2 = glm::mat4(1.0f);
         trans2 = glm::translate(trans2, glm::vec3(-0.5f, 0.5f, 0.0f));
         auto scaleValue = glm::sin((float)glfwGetTime());
         trans2 = glm::scale(trans2, glm::vec3(scaleValue, scaleValue, scaleValue));
-        
-        unsigned int transformLoc2 = glGetUniformLocation(defaultShaders.getProgramID(), "transformationMatrix");
-        glUniformMatrix4fv(transformLoc2, 1, GL_FALSE, glm::value_ptr(trans2));
-
+        defaultShaders.setMat4("transformationMatrix", trans2);
         glBindVertexArray(VAO);
         glDrawElements   (GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
 
         glfwSwapBuffers(window);
         glfwPollEvents ();
